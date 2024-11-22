@@ -1,0 +1,17 @@
+import { MdxLayout } from "components/mdx-layout.tsx";
+
+export const meta = {
+  slug: "changelogs_2024-11-14_2024-11-15",
+  publishedAt: "2024-11-15",
+  title: "Key changes - 2024-11-14 and 2024-11-15",
+  headerImage: "https://cdn.prod.website-files.com/657639ebfb91510f45654149/66a3b3a4466334bd0acd2c14_VAPI.png",
+  authors: [{"name":"Quantstruct Team","description":"Engineering","avatarUrl":"https://static.vecteezy.com/system/resources/thumbnails/002/497/200/small_2x/letter-q-logo-icon-design-template-free-vector.jpg"}],
+};
+
+1. *New Voices Added*: Use `voiceId` values `'ash'`, `'ballad'`, `'coral'`, `'sage'`, or `'verse'` with the `gpt-4o-realtime-preview-2024-10-01` model to access new voices in OpenAI's voice features.
+
+export default ({ children, ...rest }) => (
+  <MdxLayout meta={meta} {...rest}>
+    {children}
+  </MdxLayout>
+);
