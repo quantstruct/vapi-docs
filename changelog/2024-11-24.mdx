@@ -1,0 +1,15 @@
+1. **Expanded Credential Support**: You can now integrate with more providers by using new credential schemas like `AzureCredential`, `S3Credential`, `OpenAICredential`, and others. This allows you to provide API keys and configuration details for services like Azure, OpenAI, and more in your application.
+
+2. **Voice Fallback Plan Enhancement**: Define a fallback plan for assistant voices using `assistant.voice.fallbackPlan`. By specifying an array of `voices`, you can list alternative voices (e.g., `FallbackAzureVoice`, `FallbackLMNTVoice`) to use if the primary voice fails, ensuring uninterrupted voice interactions.
+
+3. **Additional Fallback Voices**: New fallback voice options are available at `assistant.voice.fallbackPlan.voices`, including `FallbackAzureVoice`, `FallbackPlayHTVoice`, `FallbackElevenLabsVoice`, and more. This provides greater flexibility in selecting alternative voices for your assistant.
+
+4. **Language Selection for PlayHT Voice**: When configuring a PlayHT voice (`assistant.voice`), you can now set the `language` property to specify the speech language. This enables you to tailor the assistant's speech to different languages supported by PlayHT.
+
+5. **AssemblyAI Transcriber Support**: You can now use `AssemblyAITranscriber` as the transcriber in your assistant by setting `assistant.transcriber` to this option. This provides an additional transcription service with features like word boost and language customization.
+
+6. **New OpenAI Model Available**: The `gpt-4o-2024-11-20` model is now available for use in `assistant.llm`. Select this model by setting `model` to `'gpt-4o-2024-11-20'` in your `OpenAIModel` configuration to leverage the latest advancements from OpenAI.
+
+7. **Removal of Filler Injection Setting**: The `fillerInjectionEnabled` property has been removed from voice configurations like `LMNTVoice`, `AzureVoice`, and others. This means filler injection is no longer configurable through this property.
+
+8. **Standardized Credential Name Descriptions**: The `name` property description for various credentials (e.g., `S3Credential`, `XAiCredential`, `GoogleCredential`) has been standardized to "This is the name of credential. This is just for your reference." This clarifies the purpose of the `name` field when managing credentials.
