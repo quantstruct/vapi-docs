@@ -5278,6 +5278,10 @@
             "type": "number",
             "description": "This is the cost of Vapi."
           },
+          "chat": {
+            "type": "number",
+            "description": "This is the cost of chat interactions."
+          },
           "total": {
             "type": "number",
             "description": "This is the total cost of the call."
@@ -5623,6 +5627,10 @@
                 {
                   "$ref": "#/components/schemas/FallbackOpenAITranscriber",
                   "title": "OpenAI"
+                },
+                {
+                  "$ref": "#/components/schemas/FallbackCartesiaTranscriber",
+                  "title": "Cartesia"
                 }
               ]
             }
@@ -12895,7 +12903,16 @@
       },
       "VariableExtractionPlan": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "schema": {
+            "description": "This is the schema of parameters we want to extract from the response",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JsonSchema"
+              }
+            ]
+          }
+        }
       },
       "ConversationNode": {
         "type": "object",
@@ -12962,6 +12979,10 @@
               {
                 "$ref": "#/components/schemas/OpenAITranscriber",
                 "title": "OpenAITranscriber"
+              },
+              {
+                "$ref": "#/components/schemas/CartesiaTranscriber",
+                "title": "CartesiaTranscriber"
               }
             ]
           },
@@ -19291,6 +19312,10 @@
               {
                 "$ref": "#/components/schemas/OpenAITranscriber",
                 "title": "OpenAITranscriber"
+              },
+              {
+                "$ref": "#/components/schemas/CartesiaTranscriber",
+                "title": "CartesiaTranscriber"
               }
             ]
           },
@@ -20060,6 +20085,10 @@
               {
                 "$ref": "#/components/schemas/OpenAITranscriber",
                 "title": "OpenAITranscriber"
+              },
+              {
+                "$ref": "#/components/schemas/CartesiaTranscriber",
+                "title": "CartesiaTranscriber"
               }
             ]
           },
@@ -21254,6 +21283,7 @@
               "assistant-request-returned-invalid-assistant",
               "assistant-request-returned-no-assistant",
               "assistant-request-returned-forwarding-phone-number",
+              "scheduled-call-deleted",
               "call.start.error-get-org",
               "call.start.error-get-subscription",
               "call.start.error-get-assistant",
@@ -22662,6 +22692,26 @@
             "format": "date-time",
             "type": "string",
             "description": "This is the ISO 8601 date-time string of when the chat was last updated."
+          },
+          "costs": {
+            "type": "array",
+            "description": "These are the costs of individual components of the chat in USD.",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ModelCost",
+                  "title": "ModelCost"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCost",
+                  "title": "ChatCost"
+                }
+              ]
+            }
+          },
+          "cost": {
+            "type": "number",
+            "description": "This is the cost of the chat in USD."
           }
         },
         "required": [
@@ -23607,6 +23657,10 @@
               {
                 "$ref": "#/components/schemas/OpenAITranscriber",
                 "title": "OpenAITranscriber"
+              },
+              {
+                "$ref": "#/components/schemas/CartesiaTranscriber",
+                "title": "CartesiaTranscriber"
               }
             ]
           },
@@ -24436,6 +24490,10 @@
               {
                 "$ref": "#/components/schemas/OpenAITranscriber",
                 "title": "OpenAITranscriber"
+              },
+              {
+                "$ref": "#/components/schemas/CartesiaTranscriber",
+                "title": "CartesiaTranscriber"
               }
             ]
           },
@@ -28250,8 +28308,9 @@
           },
           "name": {
             "type": "string",
-            "description": "This is the name of the tool. This will be passed to the model.",
-            "maxLength": 40
+            "description": "This is the name of the tool. This will be passed to the model.\n\nMust be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 40.",
+            "maxLength": 40,
+            "pattern": "/^[a-zA-Z0-9_-]{1,40}$/"
           },
           "description": {
             "type": "string",
@@ -28283,6 +28342,14 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/BackoffPlan"
+              }
+            ]
+          },
+          "variableExtractionPlan": {
+            "description": "This is the plan that controls the variable extraction from the tool's response.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VariableExtractionPlan"
               }
             ]
           },
@@ -38354,6 +38421,7 @@
               "assistant-request-returned-invalid-assistant",
               "assistant-request-returned-no-assistant",
               "assistant-request-returned-forwarding-phone-number",
+              "scheduled-call-deleted",
               "call.start.error-get-org",
               "call.start.error-get-subscription",
               "call.start.error-get-assistant",
@@ -39474,6 +39542,7 @@
               "assistant-request-returned-invalid-assistant",
               "assistant-request-returned-no-assistant",
               "assistant-request-returned-forwarding-phone-number",
+              "scheduled-call-deleted",
               "call.start.error-get-org",
               "call.start.error-get-subscription",
               "call.start.error-get-assistant",
@@ -41698,6 +41767,26 @@
           "model",
           "promptTokens",
           "completionTokens",
+          "cost"
+        ]
+      },
+      "ChatCost": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "This is the type of cost, always 'chat' for this class.",
+            "enum": [
+              "chat"
+            ]
+          },
+          "cost": {
+            "type": "number",
+            "description": "This is the cost of the component in USD."
+          }
+        },
+        "required": [
+          "type",
           "cost"
         ]
       },
