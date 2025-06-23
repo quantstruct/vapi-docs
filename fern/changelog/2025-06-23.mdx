@@ -1,0 +1,37 @@
+---
+title: Changelog for 2025-06-23
+---
+
+# Changelog — 2025-06-23
+
+## Breaking Removals
+
+- **Removed Properties and Paths:**
+  - The following schema properties have been removed:
+    - `assistantOverrides` from `Chat`, `CreateChatDTO`, `OpenAIResponsesRequest`
+    - `metadata` from `McpTool`, `CreateMcpToolDTO`, `UpdateMcpToolDTO`
+    - `callsCounterQueued`, `callsCounterScheduled`, `callsCounterInProgress`, `callsCounterEndedVoicemail` from `Campaign`
+    - `language` from `LMNTVoice`, `FallbackLMNTVoice`
+  - The following schema paths have been removed:
+    - `call.workflow.nodes[type=conversation].model` from `WorkflowCustomModel` and `WorkflowGoogleModel`
+    - All references to `assistant.voice`, `call.squad.members.assistant.voice`, `call.squad.members.assistantOverrides.voice`, `call.workflow.nodes[type=conversation].voice`, `call.workflow.voice` from `LMNTVoice`
+    - `assistant.voice.fallbackPlan.voices`, `call.squad.members.assistant.voice.fallbackPlan.voices` from `FallbackLMNTVoice`
+    - `assistant.model.tools[type=mcp]`, `call.squad.members.assistant.model.tools[type=mcp]`, `call.workflow.nodes[type=tool].tool` from `CreateMcpToolDTO`
+
+## Migration Guidance for Vapi Developers
+
+- **AssistantOverrides:** If you use `assistantOverrides`, migrate to the new override mechanism detailed in the latest documentation. Remove references from `Chat`, `CreateChatDTO`, and `OpenAIResponsesRequest`.
+- **Metadata in MCP Tools:** If you store metadata in MCP tool definitions, move this data to a supported location or externalize as needed.
+- **Campaign Counters:** If you rely on campaign-level counters for queued, scheduled, in-progress, or ended-voicemail calls, update your integration to use the new campaign tracking endpoints or analytics features.
+- **Voice Language:** LMNTVoice and FallbackLMNTVoice schemas no longer support the `language` property; rely on the new voice configuration mechanisms.
+- **Model Properties:** Workflow node-level configuration is now required for specifying models; root-level `model` properties are deprecated and removed.
+
+## General Notes
+
+- These changes are part of ongoing schema simplification and modularization. If you use removed properties, update your API requests and response handling accordingly.
+- Review your assistant, campaign, and workflow definitions for deprecated usage and consult the [OpenAPI reference](../reference) for the latest schema.
+
+---
+
+**Need help migrating?**
+Reach out via the developer support channels or open an issue in the [vapi-docs repository](https://github.com/quantstruct/vapi-docs/issues).
