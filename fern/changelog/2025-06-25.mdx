@@ -1,0 +1,67 @@
+---
+title: "Changelog for 2025-06-25"
+description: "API and documentation updates since 2025-06-20."
+---
+
+## Summary
+This changelog documents all API and documentation changes since the last published changelog (2025-06-20). It is based on the OpenAPI diff and recent repository commits.
+
+---
+
+## Notable Recent Commits
+- **2025-06-24**: [Upgrade the C# generator to 2.0.1 (#534)](https://github.com/quantstruct/vapi-docs/commit/ea28eb164bcc1cb7746dfae4dbf68dd0e8036e95)
+- **2025-06-24**: [outbound campaigns quickstart and overview (#531)](https://github.com/quantstruct/vapi-docs/commit/2acc7fff0878b3b8d773dc945fbdcb646e4204db)
+
+---
+
+## API Changes (2025-06-20 → 2025-06-25)
+
+### New Endpoints
+- `/workflow/generate`: Added as a new path.
+
+### New Models & Definitions
+- **McpToolMetadata**: New object for MCP tool protocol metadata.
+- **GenerateWorkflowDTO**: DTO for generating workflows, includes a list of toolIds.
+- **WorkflowCustomModel**: Defines a custom LLM provider with detailed metadata sending options.
+- **WorkflowGoogleModel**: Defines supported Gemini model names and parameters.
+- **FallbackLMNTVoice**: Added language property for fallback voices.
+
+### Model Changes
+
+#### Org
+- Added: `concurrencyLimit` property is now marked as deprecated.
+
+#### Chat
+- Added: `assistantOverrides` property for chat-level assistant overrides.
+
+#### McpTool
+- Added: `metadata` property for tool-level protocol/configuration.
+
+#### Campaign
+- Added: 
+  - `callsCounterQueued`
+  - `callsCounterScheduled`
+  - `callsCounterInProgress`
+  - `callsCounterEndedVoicemail`
+
+#### LMNTVoice
+- Added: `language` property.
+
+#### CreateOrgDTO / UpdateOrgDTO
+- Added: `concurrencyLimit` property (deprecated).
+
+#### CreateChatDTO / OpenAIResponsesRequest
+- Added: `assistantOverrides` property.
+
+#### CreateMcpToolDTO / UpdateMcpToolDTO
+- Added: `metadata` property.
+
+#### FallbackLMNTVoice
+- Added: `language` property.
+
+#### ServerMessageResponseTransferDestinationRequest
+- Added: `message` property.
+
+---
+
+For more details, see the [GitHub commit history](https://github.com/quantstruct/vapi-docs/commits/main) and [API documentation](https://github.com/quantstruct/vapi-docs).
