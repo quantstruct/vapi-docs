@@ -1,0 +1,38 @@
+---
+title: "2025-06-26"
+---
+
+# Changelog – 2025-06-26
+
+<Card>
+<Check /> **Deprecations & Removals**
+
+Significant removals and cleanup have been made to the OpenAPI specification in this release. These changes are part of an ongoing effort to streamline the API, reduce legacy complexity, and improve maintainability. Please review the following removals and update your integrations accordingly.
+</Card>
+
+<Frame>
+### Removed Endpoints
+- `/workflow/generate` endpoint has been **removed**. Any workflows or integrations depending on this endpoint should migrate to alternative workflow generation methods.
+</Frame>
+
+### Removed Properties and Fields
+- **Org, CreateOrgDTO, UpdateOrgDTO**:
+  - `concurrencyLimit.deprecated` has been removed. Use the standard `concurrencyLimit` field if applicable.
+- **Chat, CreateChatDTO, OpenAIResponsesRequest**:
+  - `assistantOverrides` property has been removed. Please ensure assistant configuration is managed through supported properties.
+- **McpTool, CreateMcpToolDTO, UpdateMcpToolDTO**:
+  - `metadata` property has been removed. Tool metadata should be handled externally or through updated API fields.
+- **Campaign**:
+  - The following call counter fields have been removed: `callsCounterQueued`, `callsCounterScheduled`, `callsCounterInProgress`, `callsCounterEndedVoicemail`.
+- **LMNTVoice, FallbackLMNTVoice**:
+  - `language` field has been removed, as well as references in voice fallback plans. Language selection should now be managed at a higher level in your configuration.
+- **ServerMessageResponseTransferDestinationRequest**:
+  - `message` property has been removed.
+- **WorkflowCustomModel, WorkflowGoogleModel, LMNTVoice**:
+  - The `model` and `voice` references in workflow and assistant configuration have been cleaned up for consistency and to remove unused fields.
+
+---
+
+<Card>
+If you are using any of the removed endpoints or properties, please update your integration to use the new recommended patterns. For migration help, contact support or refer to the developer documentation.
+</Card>
