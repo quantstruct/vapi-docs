@@ -1,0 +1,77 @@
+---
+title: "2025-07-28"
+---
+
+# Changelog – 2025-07-28
+
+<Frame>
+
+## New Features & Enhancements
+
+### Minimax Voice Support
+<Check /> **Minimax Voice** is now available as a voice provider for assistants and workflows. Minimax offers:
+- Real-time (low-latency) and high-fidelity TTS models (`speech-02-turbo`, `speech-02-hd`).
+- Fine-grained control over pitch, speed, volume, and emotion.
+- Region selection ("worldwide" or "china").
+- Caching and fallback plans for robust voice delivery.
+
+**How to use:**
+- Add a `MinimaxVoice` object to your assistant or workflow's `voice` property.
+- Configure via the new `CreateMinimaxCredentialDTO` for API key and group ID management.
+
+### Fully Structured Call Hooks
+<Check /> **Call hooks** now offer a more robust, event-driven structure for customizing call flows:
+- **CallHookCallEnding**, **CallHookAssistantSpeechInterrupted**, **CallHookCustomerSpeechInterrupted**, and **CallHookCustomerSpeechTimeout** provide fine-grained control over actions triggered by call events.
+- Hooks can be attached at the workflow, assistant, or node level, with advanced filtering using `CallHookFilter`.
+- Say and tool call actions are now more flexible with `SayHookAction` and `ToolCallHookAction`.
+
+**Benefits:**
+- Enable advanced automation, e.g., trigger a webhook or say a custom message when a customer is silent for too long.
+- Compose complex flows by combining multiple hooks and filters.
+
+### Expanded Model and Credential Support
+<Check /> **Minimax** is now supported as a credential provider for both assistants and workflows. Add Minimax credentials for seamless integration with the new voice provider.
+
+### Enhanced Conversation Node Tooling
+<Check /> **Conversation nodes** in workflows now support specifying `tools` and `toolIds`, allowing you to assign tools directly at the node level for more modular and context-specific actions.
+
+### Pronunciation Dictionary Integration
+<Check /> **ElevenLabs Voice** now supports custom pronunciation dictionaries via `pronunciationDictionaryLocators`, enabling precise control over speech output.
+
+### Azure Speech Transcriber Segmentation
+<Check /> The **AzureSpeechTranscriber** now supports advanced segmentation options:
+- `segmentationStrategy`, `segmentationMaxTimeMs`, and `segmentationSilenceTimeoutMs` allow you to fine-tune phrase boundary detection and pause sensitivity.
+
+---
+
+## Deprecations & Removals
+
+### Tool DTO and Function Property Cleanup
+<Card type="warning">
+The `function` property has been **removed** from all tool DTOs (e.g., `CreateMcpToolDTO`, `CreateBashToolDTO`, etc.). Use the new hook/action system for tool invocation logic.
+</Card>
+
+### Legacy Hook and Filter Types
+<Card type="warning">
+Legacy hook types (`AssistantHookCallEnding`, `AssistantHookCustomerSpeechInterrupted`, etc.) have been **replaced** by the new `CallHook*` types. Please update your integrations to use the new event-driven hook structure.
+</Card>
+
+### API Path and Property Removals
+- Several discriminator mappings for tool endpoints have been removed from OpenAPI paths. If you were relying on these, please review the new tool registration and invocation workflow.
+- The deprecated `silenceTimeoutSeconds` property has been removed from assistants and related DTOs. Use the new `CustomerSpeechTimeoutOptions` in hooks.
+
+---
+
+## Other Improvements
+- Workflow and assistant schemas now explicitly support `messagePlan.deprecated` as a marker for legacy message plans.
+- Enhanced support for event-driven automation in both API and workflow schemas.
+- Improved clarity and separation between workflow-level and node-level configuration for models, tools, and hooks.
+
+</Frame>
+
+<Frame>
+**Upgrade Guidance:**
+- Migrate any legacy hooks and tool function properties to the new structured hooks and actions system.
+- For voice features, explore Minimax and ElevenLabs pronunciation dictionary support for advanced TTS customization.
+- Review the new segmentation options for Azure Speech Transcriber if you require advanced control over speech phrase boundaries.
+</Frame>
