@@ -1,0 +1,33 @@
+---
+title: "2025-07-30"
+description: "Changelog for API updates between 2025-07-28 and 2025-07-30."
+---
+
+# 2025-07-30
+
+<Card>
+<Check /> **Transcription Segmentation Improvements for AzureSpeechTranscriber**
+</Card>
+
+- **Enhanced Segmentation Control:**
+  - The `AzureSpeechTranscriber` and `FallbackAzureSpeechTranscriber` schemas now support the new property `segmentationMaximumTimeMs`, allowing you to set the maximum segment duration for time-based transcription segmentation (range: 20,000–70,000 ms). This enables more precise control over how long a phrase can be before it is cut off, improving transcript accuracy for long utterances.
+  - The previous property `segmentationMaxTimeMs` has been **removed**. Please update your integrations to use `segmentationMaximumTimeMs` instead.
+
+- **Cleaner Assistant Schema:**
+  - Deprecated properties and paths related to `messagePlan` and `backgroundDenoisingEnabled` have been removed from the `Assistant`, `AssistantOverrides`, `CreateAssistantDTO`, and `UpdateAssistantDTO` schemas. This streamlines the assistant configuration and eliminates unused options.
+
+- **Path Cleanup:**
+  - Several legacy or redundant schema paths related to `assistant`, `assistantOverrides`, and transcriber configuration have been removed for clarity and maintainability.
+
+<Frame>
+**Migration Guidance:**
+- If you previously used `segmentationMaxTimeMs`, update to `segmentationMaximumTimeMs`.
+- Review your assistant configurations to remove references to `messagePlan` and `backgroundDenoisingEnabled`.
+</Frame>
+
+---
+
+**Full details:**
+- `segmentationMaximumTimeMs` is now the only supported way to control max segment duration for Azure-based transcription.
+- Paths and properties referencing deprecated assistant features have been fully removed.
+- No breaking changes to endpoint structure, but some request/response shapes may be simplified.
