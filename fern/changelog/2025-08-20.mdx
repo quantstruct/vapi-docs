@@ -1,0 +1,73 @@
+---
+title: "2025-08-20: Major API Updates — Handoff Tool, Rejection Plans, Metrics, Security, and More"
+date: 2025-08-20
+---
+
+<Card>
+  <Check/>
+  <b>Major OpenAPI Release: Multi-Agent Handoff, Tool Rejection, Security, and Observability</b>
+</Card>
+
+## 🚀 New Features & Additions
+
+### Multi-Agent Handoff Tool
+- **New `HandoffTool` and related endpoints**: Seamlessly hand off conversations between agents (assistants) using the new `handoff` tool type. Handoffs can be configured for:
+  - <b>Single or multiple static destinations</b> (by assistant ID or name)
+  - <b>Dynamic destinations</b> via server webhook, including custom parameters (e.g., customer intent, sentiment)
+- <b>Use case:</b> Enables advanced multi-agent orchestration, escalations, and dynamic call routing in complex workflows.
+
+### Tool Rejection Plans
+- **All tools now support a `rejectionPlan`**: Define conditions under which a tool call should be rejected (e.g., user didn't say goodbye, bot is looping, or user intent mismatch).
+- <b>Flexible logic:</b> Supports regex, Liquid templates, and logical groups for advanced conversation state handling.
+- <b>Use case:</b> Prevents accidental tool calls, enables smarter, context-aware flows, and reduces conversational errors.
+
+### Expanded Voice Capabilities
+- **New `MinimaxVoice` support**: Configure Minimax TTS with options for model, pitch, speed, region, volume, emotion, and caching.
+- **Voice fallback plans**: Enhanced failover across voice providers, including Minimax and Inworld.
+
+### Performance Metrics & Observability
+- **`call.artifact.performanceMetrics`**: Track detailed turn-level latency for model, voice, endpointing, and transcription.
+- **`AnalysisCostBreakdown`**: Now includes structured output token usage and costs.
+- **Support for Langfuse and improved logging/recording paths in `ArtifactPlan`**.
+
+### Security & Compliance
+- **Security filter plans**: New `securityFilterPlan` in compliance configuration allows for transcript sanitization, rejection, or replacement on threats (e.g., SQLi, XSS, prompt injection).
+- **User message filtering**: Each message now tracks `isFiltered`, `detectedThreats`, and `originalMessage`.
+- **RBAC and retention controls**: Subscription objects now include `rbacEnabled`, `callRetentionDays`, and `chatRetentionDays`.
+
+### Workflow & Assistant Enhancements
+- **Workflow-level hooks, background sound, keypad input plans, and dynamic credentials** (including Minimax credentials).
+- **Custom LLM models and headers**: Workflows and assistants can now specify custom model endpoints and headers.
+- **More granular artifact and analysis configuration**.
+
+## ⚠️ Breaking Changes & Deprecations
+
+### Major Deprecations
+- **Tool `function` property removed**: All custom logic for tool execution must now be handled via webhooks or rejection plans. Update your tool configurations accordingly.
+- **Removed legacy support endpoints**: `/support/ticket`, `/workflow/generate`, `/campaign/paginated` and discriminator mappings for `ghl`, `make`, `output` have been removed.
+- **Removed properties from core objects:**
+  - `Assistant`: `messagePlan`, `silenceTimeoutSeconds`, `backgroundDenoisingEnabled`
+  - `Artifact`/`NodeArtifact`: `variables`
+  - `AssemblyAITranscriber`: `enableUniversalStreamingApi`
+  - Tool DTOs: All `function` properties
+
+### Migration Guidance
+- <Card>
+  <b>Update all tool definitions to use <code>rejectionPlan</code> for conditional logic.</b><br/>
+  Replace removed `function` fields with webhook-based or plan-based logic.
+  <br/><br/>
+  <b>Review assistant and workflow schemas:</b><br/>
+  Remove deprecated properties and update to new compliance, hooks, and model options.
+</Card>
+
+## 📝 Documentation Updates Required
+
+- **Tool configuration**: Update all tool examples and guides to use `rejectionPlan` instead of `function`.
+- **Handoff flows**: Add new documentation and code samples for `handoff` tool and dynamic routing.
+- **Security/compliance**: Document new `securityFilterPlan` and message filtering fields on user messages.
+- **Performance metrics**: Add usage guides for turn latency and cost breakdown.
+- **Assistant/workflow schemas**: Remove deprecated fields and highlight new credential, sound, and model options.
+
+<Frame>
+  <b>Note:</b> This release introduces significant improvements for multi-agent orchestration, security, and observability, but also requires updates to existing tool and assistant configurations. Please review all breaking changes and update your integrations accordingly.
+</Frame>
