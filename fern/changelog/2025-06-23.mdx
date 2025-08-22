@@ -1,0 +1,33 @@
+---
+title: Changelog for 2025-06-23
+---
+
+# Changelog — 2025-06-23
+
+## Breaking API Changes
+
+- **Schema Removals:**
+  - Several schemas and properties were removed to simplify and clarify the Vapi API surface:
+    - `McpTool.metadata`, `Chat.assistantOverrides`, `Campaign.callsCounter*`, `LMNTVoice.language`, `FallbackLMNTVoice.language`, `CreateMcpToolDTO.metadata`, `UpdateMcpToolDTO.metadata`, `OpenAIResponsesRequest.assistantOverrides`.
+    - Node-level `model` for tool and workflow nodes (e.g., `call.workflow.nodes[type=conversation].model`) have been removed for custom models. Ensure you configure models at the correct node level.
+    - `assistant.voice`, `call.squad.members.assistant.voice`, `call.squad.members.assistantOverrides.voice`, and related voice model properties have been adjusted, with fallback plans now required in some places.
+
+## Developer Impact
+
+- **Migration Required:**
+  - If your integration or workflow relies on the above properties, update your payloads and workflow definitions to remove deprecated fields and migrate to the new structure. See the [migration guide](../reference) for field mapping examples.
+- **Simplified Tool Configuration:**
+  - MCP Tool and API Request Tool schemas are now more streamlined, with redundant metadata and overrides removed. This makes tool configuration more predictable and reduces ambiguity for tool invocation.
+
+## Why this matters for Vapi developers
+
+- **Cleaner API Contracts:** By removing unused/deprecated fields, Vapi APIs are easier to integrate, validate, and maintain. This leads to fewer surprises and more predictable behavior for custom assistants, campaign management, and workflow automation.
+- **Reduced Error Surface:** Eliminating ambiguous override fields (like `assistantOverrides` in multiple places) prevents accidental misconfiguration and runtime errors.
+- **Next Steps:**
+  - Audit your assistant, tool, workflow, and campaign definitions for the removed fields.
+  - Test against the latest OpenAPI spec to ensure compatibility.
+  - Reach out to support if you need help with migration strategies or have custom use cases impacted by these removals.
+
+---
+
+For a full reference of the latest API, see [OpenAPI Spec](../reference).

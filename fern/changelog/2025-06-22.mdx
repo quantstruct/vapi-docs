@@ -1,0 +1,45 @@
+---
+title: Changelog for 2025-06-22
+---
+
+# Changelog — 2025-06-22
+
+## Major API Additions
+
+- **Campaigns API**: New endpoints and schemas for managing outbound calling campaigns. This includes campaign lifecycle management (`/campaign`, `/campaign/{id}`), scheduling, customer lists, call statistics, and campaign status tracking. This enables orchestrating large-scale outbound calling via Vapi.
+- **Credential Management**: New credential types supported for S3, GCP, Azure, Supabase, and Cloudflare. Each credential now supports fallback order (`fallbackIndex`) for robust artifact upload and storage.
+- **New Tool Types**: 
+  - **API Request Tool**: Added endpoints and schemas for defining API request tools, including custom function definitions, variable extraction plans, and retry/backoff strategies.
+  - **MCP Tool**: Added support for MCP (Model-Controlled Plugin) tools with protocol metadata. Webhook server precedence for tool calls is now well-defined.
+
+## Workflow & Assistant Enhancements
+
+- **Background Speech Denoising**: Assistants and workflows now support advanced background speech denoising via Krisp (Smart Denoising) and experimental Fourier denoising. Both can be enabled and configured independently or together.
+- **Transcriber Updates**: Added Cartesia, AssemblyAI, and fallback plans for transcribers, including new configuration options (e.g., `formatTurns`, `maxTurnSilence`, `minEndOfTurnSilenceWhenConfident`).
+- **Voice Model Improvements**: LMNTVoice and FallbackLMNTVoice now support language selection and improved fallback logic.
+- **AssistantOverrides & WorkflowOverrides**: New properties for granular runtime overrides, including background denoising and credential injection.
+
+## Cost Tracking & Observability
+
+- **Cost Breakdown**: Calls and chats now include detailed cost breakdowns for each component (LLM, STT, TTS, transport, Vapi, analysis, etc.).
+- **Langfuse Observability**: Workflows and assistants now support Langfuse for detailed trace and span tracking.
+
+## Minor Improvements & Fixes
+
+- **Compliance & Monitoring**: Workflows and assistants now support compliance plans (HIPAA etc.), monitoring plans for live listening/control, and improved webhook routing.
+- **Artifact & Analysis Plans**: New schema properties for storing and configuring artifacts and analysis at both assistant and workflow levels.
+- **ServerMessage Updates**: All server and client messages now consistently include `chat` and `call` objects for easier integration.
+- **Parameter Extraction**: Variable extraction plans can now be attached to API Request tools, improving structured data extraction from tool results.
+
+## Breaking Changes
+
+- **Removed**: Deprecated properties in Workflow schemas (e.g., `model` at the workflow root level) have been removed. Ensure you use node-level model configuration.
+
+---
+
+**Upgrade Guidance**:
+- Review new credential management and denoising options for enhanced reliability and call quality.
+- Update tool and workflow definitions to leverage new API Request and MCP tool capabilities.
+- For custom integrations, ensure server endpoints handle new webhook payloads and cost breakdowns.
+
+For detailed API reference, see [OpenAPI Spec](../reference).

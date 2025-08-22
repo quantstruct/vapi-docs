@@ -1,0 +1,42 @@
+---
+title: "Changelog – 2025-06-21"
+description: "Vapi API and Workflow changes released on June 21, 2025."
+---
+
+# 2025-06-21 Changelog
+
+## Major Breaking Changes
+
+### Removal of Assistant, Tool, and Chat Schema Properties
+- Numerous properties and schema paths have been **removed** from the API, including many related to `Assistant`, `AssistantOverrides`, `Chat`, `Workflow`, `Credential` types, and various `ServerMessage*` objects. This includes:
+  - Removal of background denoising and speech denoising plans from assistants and workflows
+  - Removal of several properties from credential objects (e.g., fallbackIndex, region)
+  - Significant reduction in `chat`-related properties from server message schemas
+  - Removal of API Request Tool discriminator mappings from multiple endpoints
+  - Removal of variable extraction plan, name patterns, and other properties from tool creation
+
+> **Action Required:**
+> - If your integration relies on any of the removed properties or schemas, update your code to avoid referencing them. Calls using deprecated fields will now fail validation.
+
+### AssemblyAITranscriber and FallbackAssemblyAITranscriber
+- The following properties were **removed**: `formatTurns`, `maxTurnSilence`, `wordFinalizationMaxWaitTime`, `endOfTurnConfidenceThreshold`, `minEndOfTurnSilenceWhenConfident`.
+
+## Additions
+
+### Workflow Enhancements
+- New schema properties and definitions have been **added** for Workflows:
+  - `Workflow.model`: Now supports specifying a model at the workflow level. Accepts `WorkflowOpenAIModel` or `WorkflowAnthropicModel`.
+  - New edge condition types: `LogicEdgeCondition` and `FailedEdgeCondition` are now supported in workflow edges. `LogicEdgeCondition` uses a `liquid` template string for advanced branching.
+
+> **For Developers:**
+> - You can now specify a model for the entire workflow, providing greater flexibility and control over LLM selection.
+> - Use `LogicEdgeCondition` for complex, liquid-based conditional branching in workflow edges.
+
+## Migration Guidance
+- Review all usage of removed properties and schemas, especially if you use advanced assistant, tool, or workflow customization features.
+- Migrate workflow branching logic to use the new `LogicEdgeCondition` and `FailedEdgeCondition` schemas where applicable.
+- Update your workflow definitions to optionally include the new `model` property for global LLM configuration.
+
+---
+
+For questions or migration help, please reach out to the Vapi team or open an issue in the repository.
